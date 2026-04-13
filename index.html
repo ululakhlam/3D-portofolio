@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
+/* --- CSS tidak berubah --- */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --bg:#030507;
@@ -599,7 +600,11 @@ body::before{
   <div style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text-muted);">3D GENERALIST · INDONESIA</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- TAMBAHKAN GLTFLoader -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
 <script>
 // ==================== CURSOR ====================
 const cur = document.getElementById('cursor');
@@ -685,150 +690,185 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   });
 })();
 
-// ==================== GALLERY THREE.JS ====================
+// ==================== GALLERY THREE.JS (DENGAN GLTFLOADER) ====================
 (function(){
-  const canvas=document.getElementById('gallery-canvas');
-  const scene=new THREE.Scene();
-  scene.background=new THREE.Color(0x060a10);
-  const w=canvas.clientWidth,h=canvas.clientHeight;
-  const camera=new THREE.PerspectiveCamera(60,w/h,.1,100);
-  camera.position.set(0,0,5);
-  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-  renderer.setSize(canvas.clientWidth,canvas.clientHeight);
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  renderer.shadowMap.enabled=true;
-  // Lights
-  scene.add(new THREE.AmbientLight(0xffffff,.3));
-  const l1=new THREE.PointLight(0xa855f7,5,20);l1.position.set(4,4,4);scene.add(l1);
-  const l2=new THREE.PointLight(0x06b6d4,5,20);l2.position.set(-4,-2,3);scene.add(l2);
-  const l3=new THREE.PointLight(0x3b82f6,3,15);l3.position.set(0,5,-3);scene.add(l3);
-  // Grid floor
-  const grid=new THREE.GridHelper(20,30,0x1a1a2e,0x0d1220);
-  grid.position.y=-2.5;scene.add(grid);
-  // Models store
-  let current=null;
-  const models={};
-  function buildCrystal(){
-    const g=new THREE.Group();
-    const mat=new THREE.MeshStandardMaterial({color:0x00ddff,metalness:.1,roughness:.05,transparent:true,opacity:.85,emissive:0x003344,emissiveIntensity:.5});
-    const cone1=new THREE.Mesh(new THREE.ConeGeometry(.6,2.5,8),mat);cone1.position.y=1.2;g.add(cone1);
-    const cone2=new THREE.Mesh(new THREE.ConeGeometry(.5,1.8,8),mat.clone());cone2.position.set(.7,.5,-.3);cone2.rotation.z=.4;g.add(cone2);
-    const cone3=new THREE.Mesh(new THREE.ConeGeometry(.35,1.4,8),mat.clone());cone3.position.set(-.6,.3,.4);cone3.rotation.z=-.3;g.add(cone3);
-    const base=new THREE.Mesh(new THREE.CylinderGeometry(.8,.9,.3,8),new THREE.MeshStandardMaterial({color:0x001122,metalness:.9,roughness:.2}));base.position.y=-.5;g.add(base);
-    return g;
-  }
-  function buildMech(){
-    const g=new THREE.Group();
-    const bMat=new THREE.MeshStandardMaterial({color:0x2a2a3a,metalness:.95,roughness:.1,emissive:0x330066,emissiveIntensity:.2});
-    const aMat=new THREE.MeshStandardMaterial({color:0xa855f7,metalness:.8,roughness:.2,emissive:0x660099,emissiveIntensity:.5});
-    const body=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.8,1),bMat);g.add(body);
-    const head=new THREE.Mesh(new THREE.BoxGeometry(.9,.7,.8),bMat.clone());head.position.y=1.25;g.add(head);
-    const eye1=new THREE.Mesh(new THREE.SphereGeometry(.12,12,12),aMat);eye1.position.set(-.2,1.3,.42);g.add(eye1);
-    const eye2=new THREE.Mesh(new THREE.SphereGeometry(.12,12,12),aMat.clone());eye2.position.set(.2,1.3,.42);g.add(eye2);
-    const sh1=new THREE.Mesh(new THREE.CylinderGeometry(.5,.6,.4,12),bMat.clone());sh1.position.set(-1.05,.7,0);sh1.rotation.z=.2;g.add(sh1);
-    const sh2=new THREE.Mesh(new THREE.CylinderGeometry(.5,.6,.4,12),bMat.clone());sh2.position.set(1.05,.7,0);sh2.rotation.z=-.2;g.add(sh2);
-    const core=new THREE.Mesh(new THREE.OctahedronGeometry(.3),aMat.clone());core.position.y=0;g.add(core);
-    return g;
-  }
-  function buildPlanet(){
-    const g=new THREE.Group();
-    const pMat=new THREE.MeshStandardMaterial({color:0x1a3a5c,metalness:.1,roughness:.8,emissive:0x001133,emissiveIntensity:.3});
-    const planet=new THREE.Mesh(new THREE.SphereGeometry(1.5,64,64),pMat);g.add(planet);
-    const atmoMat=new THREE.MeshStandardMaterial({color:0x0055ff,transparent:true,opacity:.12,side:THREE.BackSide});
-    const atmo=new THREE.Mesh(new THREE.SphereGeometry(1.65,32,32),atmoMat);g.add(atmo);
-    const ringGeo=new THREE.TorusGeometry(2.5,.2,8,80);
-    const ringMat=new THREE.MeshStandardMaterial({color:0x8833ff,metalness:.6,roughness:.3,transparent:true,opacity:.7});
-    const ring=new THREE.Mesh(ringGeo,ringMat);ring.rotation.x=Math.PI*.35;g.add(ring);
-    // Moons
-    for(let i=0;i<3;i++){
-      const m=new THREE.Mesh(new THREE.SphereGeometry(.15+Math.random()*.1,16,16),new THREE.MeshStandardMaterial({color:0x888899,metalness:.3,roughness:.7}));
-      const a=i*(Math.PI*2/3);const r=2.2+Math.random()*.5;
-      m.position.set(Math.cos(a)*r,.3+Math.random()*.5,Math.sin(a)*r);
-      g.add(m);
+  const canvas = document.getElementById('gallery-canvas');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x060a10);
+  
+  const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+  camera.position.set(0, 1, 5);
+  
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  
+  // --- Pencahayaan ---
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  
+  const l1 = new THREE.PointLight(0xa855f7, 5, 20);
+  l1.position.set(4, 4, 4);
+  scene.add(l1);
+  
+  const l2 = new THREE.PointLight(0x06b6d4, 5, 20);
+  l2.position.set(-4, -2, 3);
+  scene.add(l2);
+  
+  const l3 = new THREE.PointLight(0x3b82f6, 3, 15);
+  l3.position.set(0, 5, -3);
+  scene.add(l3);
+  
+  // Grid lantai
+  const grid = new THREE.GridHelper(20, 30, 0x1a1a2e, 0x0d1220);
+  grid.position.y = -2.5;
+  scene.add(grid);
+  
+  // --- Loader GLTF ---
+  const loader = new THREE.GLTFLoader();
+  let currentModel = null;
+  
+  // 🖼️ DAFTAR URL MODEL (GANTI DENGAN URL GITHUB ANDA)
+  const modelUrls = {
+    crystal: 'https://raw.githubusercontent.com/USERNAME/REPO/main/crystal.glb',
+    mech:    'https://raw.githubusercontent.com/USERNAME/REPO/main/mech.glb',
+    planet:  'https://raw.githubusercontent.com/USERNAME/REPO/main/planet.glb',
+    relic:   'https://raw.githubusercontent.com/USERNAME/REPO/main/relic.glb'
+  };
+  
+  function loadModel(name) {
+    if (currentModel) {
+      scene.remove(currentModel);
     }
-    return g;
-  }
-  function buildRelic(){
-    const g=new THREE.Group();
-    const stoneMat=new THREE.MeshStandardMaterial({color:0x3a2a1a,metalness:.2,roughness:.9,emissive:0x220011,emissiveIntensity:.1});
-    const glowMat=new THREE.MeshStandardMaterial({color:0xff6600,metalness:.5,roughness:.2,emissive:0xdd3300,emissiveIntensity:.8,transparent:true,opacity:.9});
-    const base=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.5,.4,12),stoneMat);base.position.y=-1.2;g.add(base);
-    const pillar=new THREE.Mesh(new THREE.CylinderGeometry(.5,.6,2.5,12),stoneMat.clone());g.add(pillar);
-    const cap=new THREE.Mesh(new THREE.SphereGeometry(.7,32,32),stoneMat.clone());cap.position.y=1.5;g.add(cap);
-    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.35),glowMat);gem.position.y=1.5;g.add(gem);
-    for(let i=0;i<6;i++){
-      const a=i*(Math.PI/3);
-      const r=new THREE.Mesh(new THREE.BoxGeometry(.08,.6,.08),new THREE.MeshStandardMaterial({color:0xcc8800,emissive:0xff4400,emissiveIntensity:.5}));
-      r.position.set(Math.cos(a)*.5,-.1,Math.sin(a)*.5);g.add(r);
+    
+    const url = modelUrls[name];
+    if (!url) {
+      console.error('URL untuk model ' + name + ' tidak ditemukan');
+      return;
     }
-    return g;
+    
+    console.log('Memuat model: ' + name);
+    
+    loader.load(
+      url,
+      (gltf) => {
+        currentModel = gltf.scene;
+        currentModel.scale.set(0.8, 0.8, 0.8);
+        currentModel.position.y = 0;
+        currentModel.traverse(node => {
+          if (node.isMesh) {
+            node.castShadow = true;
+            node.receiveShadow = true;
+          }
+        });
+        scene.add(currentModel);
+        console.log('Model ' + name + ' berhasil dimuat');
+      },
+      (xhr) => {
+        const percent = Math.floor((xhr.loaded / xhr.total) * 100);
+        console.log(`Loading ${name}: ${percent}%`);
+      },
+      (error) => {
+        console.error('Gagal memuat model:', error);
+      }
+    );
   }
-  const factories={crystal:buildCrystal,mech:buildMech,planet:buildPlanet,relic:buildRelic};
-  function loadModel(name){
-    if(current){scene.remove(current);}
-    current=factories[name]();
-    scene.add(current);
-  }
+  
   loadModel('crystal');
-  // Controls
-  document.querySelectorAll('.model-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.model-btn').forEach(b=>b.classList.remove('active'));
+  
+  // --- Kontrol Tombol ---
+  document.querySelectorAll('.model-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       loadModel(btn.dataset.model);
     });
   });
-  // Orbit
-  let isDragging=false,prevMx=0,prevMy=0,theta=0,phi=Math.PI/4,radius=5;
-  canvas.addEventListener('mousedown',e=>{isDragging=true;prevMx=e.clientX;prevMy=e.clientY;});
-  window.addEventListener('mouseup',()=>{isDragging=false;});
-  window.addEventListener('mousemove',e=>{
-    if(!isDragging||!current)return;
-    const dx=e.clientX-prevMx,dy=e.clientY-prevMy;
-    theta-=dx*.01;phi=Math.max(.1,Math.min(Math.PI-.1,phi+dy*.01));
-    prevMx=e.clientX;prevMy=e.clientY;
+  
+  // --- Kontrol Orbit (Drag & Zoom) ---
+  let isDragging = false;
+  let prevMx = 0, prevMy = 0;
+  let theta = 0, phi = Math.PI / 4;
+  let radius = 5;
+  
+  canvas.addEventListener('mousedown', e => {
+    isDragging = true;
+    prevMx = e.clientX;
+    prevMy = e.clientY;
   });
-  canvas.addEventListener('wheel',e=>{radius=Math.max(2,Math.min(10,radius+e.deltaY*.01));e.preventDefault();},{passive:false});
-  // Touch
-  let lastTouch=null;
-  canvas.addEventListener('touchstart',e=>{lastTouch=e.touches[0];isDragging=true;},{passive:true});
-  canvas.addEventListener('touchend',()=>{isDragging=false;lastTouch=null;},{passive:true});
-  canvas.addEventListener('touchmove',e=>{
-    if(!isDragging||!lastTouch)return;
-    const t=e.touches[0];const dx=t.clientX-lastTouch.clientX,dy=t.clientY-lastTouch.clientY;
-    theta-=dx*.01;phi=Math.max(.1,Math.min(Math.PI-.1,phi+dy*.01));
-    lastTouch=t;e.preventDefault();
-  },{passive:false});
-  let gt=0;
-  function render(){
-    requestAnimationFrame(render);
-    gt+=.008;
-    if(current&&!isDragging){theta+=.005;}
-    camera.position.x=radius*Math.sin(phi)*Math.sin(theta);
-    camera.position.y=radius*Math.cos(phi);
-    camera.position.z=radius*Math.sin(phi)*Math.cos(theta);
-    camera.lookAt(0,0,0);
-    if(current){
-      if(current.children){
-        current.children.forEach((c,i)=>{
-          if(c.isGroup)return;
-          if(c.material&&c.material.emissiveIntensity!==undefined){
-            c.material.emissiveIntensity=.3+Math.sin(gt+i)*.2;
-          }
-        });
-      }
+  
+  window.addEventListener('mouseup', () => { isDragging = false; });
+  
+  window.addEventListener('mousemove', e => {
+    if (!isDragging || !currentModel) return;
+    const dx = e.clientX - prevMx;
+    const dy = e.clientY - prevMy;
+    theta -= dx * 0.01;
+    phi = Math.max(0.1, Math.min(Math.PI - 0.1, phi + dy * 0.01));
+    prevMx = e.clientX;
+    prevMy = e.clientY;
+  });
+  
+  canvas.addEventListener('wheel', e => {
+    radius = Math.max(2, Math.min(10, radius + e.deltaY * 0.01));
+    e.preventDefault();
+  }, { passive: false });
+  
+  // Touch support
+  let lastTouch = null;
+  canvas.addEventListener('touchstart', e => {
+    lastTouch = e.touches[0];
+    isDragging = true;
+  }, { passive: true });
+  
+  canvas.addEventListener('touchend', () => {
+    isDragging = false;
+    lastTouch = null;
+  }, { passive: true });
+  
+  canvas.addEventListener('touchmove', e => {
+    if (!isDragging || !lastTouch) return;
+    const t = e.touches[0];
+    const dx = t.clientX - lastTouch.clientX;
+    const dy = t.clientY - lastTouch.clientY;
+    theta -= dx * 0.01;
+    phi = Math.max(0.1, Math.min(Math.PI - 0.1, phi + dy * 0.01));
+    lastTouch = t;
+    e.preventDefault();
+  }, { passive: false });
+  
+  // --- Animasi ---
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.008;
+    
+    if (!isDragging && currentModel) {
+      theta += 0.005;
     }
-    l1.position.x=Math.sin(gt)*6;l1.position.z=Math.cos(gt)*6;
-    l2.position.x=Math.cos(gt*.8)*6;l2.position.z=Math.sin(gt*.8)*6;
-    renderer.render(scene,camera);
+    
+    camera.position.x = radius * Math.sin(phi) * Math.sin(theta);
+    camera.position.y = radius * Math.cos(phi);
+    camera.position.z = radius * Math.sin(phi) * Math.cos(theta);
+    camera.lookAt(0, 0.5, 0);
+    
+    l1.position.x = Math.sin(time) * 6;
+    l1.position.z = Math.cos(time) * 6;
+    l2.position.x = Math.cos(time * 0.8) * 6;
+    l2.position.z = Math.sin(time * 0.8) * 6;
+    
+    renderer.render(scene, camera);
   }
-  render();
-  function resize(){
-    const w2=canvas.clientWidth,h2=canvas.clientHeight;
-    camera.aspect=w2/h2;camera.updateProjectionMatrix();
-    renderer.setSize(w2,h2);
+  animate();
+  
+  function resize() {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
   }
-  window.addEventListener('resize',resize);
+  window.addEventListener('resize', resize);
 })();
 
 // ==================== PROJECTS DATA ====================
@@ -937,7 +977,6 @@ const io=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       e.target.classList.add('visible');
-      // Animate skill bars
       if(e.target.classList.contains('skill-card')){
         const bar=e.target.querySelector('.skill-bar');
         if(bar&&!bar.style.width.includes('%')||bar.style.width==='0%'){
@@ -1001,7 +1040,6 @@ if(showreelBg){
       ctx.fillStyle=p.c;ctx.globalAlpha=p.o*.6;ctx.fill();
     });
     ctx.globalAlpha=1;
-    // Moving grid lines
     ctx.strokeStyle='rgba(100,100,200,0.06)';ctx.lineWidth=1;
     for(let i=0;i<sw;i+=60){
       ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+sh*.3,sh);ctx.stroke();
