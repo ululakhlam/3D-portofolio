@@ -623,6 +623,11 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
   renderer.setSize(window.innerWidth,window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+
+  // --- Buat grup untuk memindahkan semua objek ke kanan ---
+  const mainGroup = new THREE.Group();
+  scene.add(mainGroup);
+
   // Particles
   const geo=new THREE.BufferGeometry();
   const N=4000;
@@ -641,7 +646,8 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   geo.setAttribute('color',new THREE.BufferAttribute(col,3));
   const mat=new THREE.PointsMaterial({size:.05,vertexColors:true,transparent:true,opacity:.8});
   const stars=new THREE.Points(geo,mat);
-  scene.add(stars);
+  mainGroup.add(stars);
+
   // Central shape
   const torusGeo=new THREE.TorusKnotGeometry(1.2,.35,200,32,2,3);
   const torusMat=new THREE.MeshStandardMaterial({
@@ -650,17 +656,23 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
     wireframe:false
   });
   const torus=new THREE.Mesh(torusGeo,torusMat);
-  scene.add(torus);
+  mainGroup.add(torus);
+
   // Wireframe overlay
   const wMat=new THREE.MeshBasicMaterial({color:0x6633ff,wireframe:true,transparent:true,opacity:.15});
   const wire=new THREE.Mesh(torusGeo,wMat);
-  scene.add(wire);
-  // Lights
+  mainGroup.add(wire);
+
+  // --- Geser grup ke kanan (ubah nilai x sesuai keinginan) ---
+  mainGroup.position.x = 1.8;   // <-- atur di sini, makin besar makin ke kanan
+
+  // Lights (tetap di scene, tidak ikut grup agar pencahayaan natural)
   const amb=new THREE.AmbientLight(0xffffff,.2);
   scene.add(amb);
   const pt1=new THREE.PointLight(0xa855f7,3,20);pt1.position.set(5,5,5);scene.add(pt1);
   const pt2=new THREE.PointLight(0x06b6d4,3,20);pt2.position.set(-5,-3,3);scene.add(pt2);
   const pt3=new THREE.PointLight(0x3b82f6,2,15);pt3.position.set(0,5,-5);scene.add(pt3);
+
   // Mouse
   let mouseX=0,mouseY=0;
   document.addEventListener('mousemove',e=>{mouseX=(e.clientX/window.innerWidth-.5)*2;mouseY=(e.clientY/window.innerHeight-.5)*2;});
@@ -679,6 +691,7 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
     renderer.render(scene,camera);
   }
   render();
+
   window.addEventListener('resize',()=>{
     camera.aspect=window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
