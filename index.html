@@ -930,25 +930,40 @@ steps.forEach((s,i)=>{
 });
 
 // ==================== SKILLS ====================
-const skillsList=[
-  {icon:"https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg',name:'Blender",pct:95,bar:'skill-bar-cyan'},
-  {icon:'🟡',name:'Maya',pct:90,bar:'skill-bar-purple'},
-  {icon:'🟠',name:'ZBrush',pct:92,bar:'skill-bar-cyan'},
-  {icon:'🟤',name:'Substance Painter',pct:88,bar:'skill-bar-purple'},
-  {icon:'🟢',name:'Unreal Engine',pct:82,bar:'skill-bar-cyan'},
-  {icon:"https://img.icons8.com/color/48/cinema-4d.png",name:'Cinema 4D',pct:78,bar:'skill-bar-purple'},
-  {icon:'🔴',name:'Arnold',pct:86,bar:'skill-bar-cyan'},
-  {icon:'🟣',name:'Houdini',pct:72,bar:'skill-bar-purple'},
-  {icon:'🔷',name:'After Effects',pct:80,bar:'skill-bar-cyan'},
-  {icon:'🟥',name:'Nuke',pct:70,bar:'skill-bar-purple'},
-  {icon:'⬛',name:'Marvelous Designer',pct:75,bar:'skill-bar-cyan'},
-  {icon:'🔶',name:'Photoshop',pct:88,bar:'skill-bar-purple'},
+const skillsList = [
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/blender-32.png", name: "Blender", pct: 95, bar: "skill-bar-cyan" },
+  { icon: "🟡", name: "Maya", pct: 90, bar: "skill-bar-purple" },
+  { icon: "🟠", name: "ZBrush", pct: 92, bar: "skill-bar-cyan" },
+  { icon: "🟤", name: "Substance Painter", pct: 88, bar: "skill-bar-purple" },
+  { icon: "🟢", name: "Unreal Engine", pct: 82, bar: "skill-bar-cyan" },
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/cinema-4d-32.png", name: "Cinema 4D", pct: 78, bar: "skill-bar-purple" },
+  { icon: "🔴", name: "Arnold", pct: 86, bar: "skill-bar-cyan" },
+  { icon: "🟣", name: "Houdini", pct: 72, bar: "skill-bar-purple" },
+  { icon: "🔷", name: "After Effects", pct: 80, bar: "skill-bar-cyan" },
+  { icon: "🟥", name: "Nuke", pct: 70, bar: "skill-bar-purple" },
+  { icon: "⬛", name: "Marvelous Designer", pct: 75, bar: "skill-bar-cyan" },
+  { icon: "🔶", name: "Photoshop", pct: 88, bar: "skill-bar-purple" }
 ];
-const sg=document.getElementById('skills-grid');
-skillsList.forEach(s=>{
-  const div=document.createElement('div');
-  div.className='skill-card reveal';
-  div.innerHTML=`<div class="skill-icon">${s.icon}</div><div class="skill-name">${s.name}</div><div class="skill-level"><div class="skill-bar ${s.bar}" style="width:0%" data-pct="${s.pct}%"></div></div><div class="skill-pct">${s.pct}%</div>`;
+
+const sg = document.getElementById('skills-grid');
+skillsList.forEach(s => {
+  const div = document.createElement('div');
+  div.className = 'skill-card reveal';
+  
+  // Cek apakah icon berupa URL gambar
+  const isImageUrl = s.icon.startsWith('http');
+  const iconHtml = isImageUrl
+    ? `<img src="${s.icon}" alt="${s.name}" class="skill-icon-img" style="width:32px; height:32px; object-fit:contain;">`
+    : `<span class="skill-icon-emoji" style="font-size:28px;">${s.icon}</span>`;
+  
+  div.innerHTML = `
+    <div class="skill-icon">${iconHtml}</div>
+    <div class="skill-name">${s.name}</div>
+    <div class="skill-level">
+      <div class="skill-bar ${s.bar}" style="width:0%" data-pct="${s.pct}%"></div>
+    </div>
+    <div class="skill-pct">${s.pct}%</div>
+  `;
   sg.appendChild(div);
 });
 
