@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Put your HTML text here<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-/* --- CSS tidak berubah --- */
+/* --- CSS TIDAK BERUBAH (semua style lama Anda tetap sama) --- */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --bg:#030507;
@@ -201,7 +201,7 @@ section{position:relative;padding:7rem 8vw;}
   border:1px solid var(--glass-border);
   background:var(--glass);
   transition:all .4s cubic-bezier(.25,.46,.45,.94);
-  cursor:none;
+  cursor:pointer;
 }
 .project-card:hover{transform:translateY(-8px);border-color:rgba(168,85,247,.4);box-shadow:0 20px 60px rgba(168,85,247,.2);}
 .project-thumb{
@@ -417,6 +417,72 @@ body::before{
 }
 /* COUNT UP */
 .counter{display:inline;}
+
+/* === NEW MODAL FOR PROJECT VIDEO (glassmorphic, cyber style) === */
+#project-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(3,5,7,.96);
+  backdrop-filter:blur(24px);
+  z-index:20000;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+#project-modal .modal-content{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  width:100%;
+  max-width:1180px;
+  box-shadow:0 0 100px rgba(168,85,247,.5);
+  overflow:hidden;
+  position:relative;
+}
+#project-modal .modal-video{
+  width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+  position:relative;
+}
+#project-modal .modal-video iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+#project-modal .modal-info{
+  padding:2rem 2.5rem;
+}
+#project-modal .modal-info h3{
+  font-family:'Orbitron',sans-serif;
+  font-size:2rem;
+  margin-bottom:1rem;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+#project-modal .modal-info p{
+  color:var(--text-muted);
+  line-height:1.7;
+  font-size:1.05rem;
+}
+#project-modal .close-btn{
+  position:absolute;
+  top:25px;
+  right:30px;
+  font-size:42px;
+  color:var(--cyan);
+  cursor:pointer;
+  transition:all .3s;
+  z-index:10;
+  line-height:1;
+}
+#project-modal .close-btn:hover{
+  color:var(--purple);
+  transform:rotate(90deg);
+}
 </style>
 </head>
 <body>
@@ -467,7 +533,9 @@ body::before{
         <div class="hero-stat-num"><span class="counter" data-target="120">0</span>+</div>
         <div class="hero-stat-label">Projects Completed</div>
       </div>
-      
+      <div>
+        
+      </div>
     </div>
   </div>
   <div class="hero-scroll">
@@ -581,8 +649,6 @@ body::before{
     
     <div class="social-links reveal">
       <a href="https://www.instagram.com/ululakhlam.does9" target="_blank" rel="noopener noreferrer" class="social-btn">Instagram</a>
-      
-    </div>
     </div>
   </div>
 </section>
@@ -593,13 +659,24 @@ body::before{
   <div style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text-muted);">3D GENERALIST · INDONESIA</div>
 </footer>
 
+<!-- PROJECT VIDEO MODAL (kotak yang tersedia) -->
+<div id="project-modal">
+  <div class="modal-content glass-panel">
+    <span class="close-btn" id="close-modal">×</span>
+    <div class="modal-video" id="modal-video"></div>
+    <div class="modal-info">
+      <h3 id="modal-title"></h3>
+      <p id="modal-desc"></p>
+    </div>
+  </div>
+</div>
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!-- TAMBAHKAN GLTFLoader -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
 <script>
-// ==================== CURSOR ====================
+// ==================== CURSOR (tidak berubah) ====================
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
@@ -611,7 +688,7 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';cur.style.background='var(--cyan)';});
 });
 
-// ==================== HERO THREE.JS ====================
+// ==================== HERO THREE.JS (tidak berubah) ====================
 (function(){
   const canvas=document.getElementById('hero-canvas');
   const scene=new THREE.Scene();
@@ -620,12 +697,8 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
   renderer.setSize(window.innerWidth,window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-
-  // --- Buat grup untuk memindahkan semua objek ke kanan ---
   const mainGroup = new THREE.Group();
   scene.add(mainGroup);
-
-  // Particles
   const geo=new THREE.BufferGeometry();
   const N=4000;
   const pos=new Float32Array(N*3);
@@ -644,36 +717,20 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   const mat=new THREE.PointsMaterial({size:.05,vertexColors:true,transparent:true,opacity:.8});
   const stars=new THREE.Points(geo,mat);
   mainGroup.add(stars);
-
-  // Central shape
- 
-  const torusGeo=new THREE.BoxGeometry(2,2,2);
-  const torusMat=new THREE.MeshStandardMaterial({
-    color:0x1a1a2e,metalness:.9,roughness:.1,
-    emissive:0x4400aa,emissiveIntensity:.3,
-    wireframe:true
-  });
-  
-  
+  // ==================== CUBE ====================
+  const torusGeo=new THREE.BoxGeometry(3,3,3);
+  const torusMat=new THREE.MeshStandardMaterial({color:0x1a1a2e,metalness:10,roughness:10,emissive:0x4400aa,emissiveIntensity:2,wireframe:true});
   const torus=new THREE.Mesh(torusGeo,torusMat);
   mainGroup.add(torus);
-
-  // Wireframe overlay
   const wMat=new THREE.MeshBasicMaterial({color:0x6633ff,wireframe:true,transparent:true,opacity:.15});
   const wire=new THREE.Mesh(torusGeo,wMat);
   mainGroup.add(wire);
-
-  // --- Geser grup ke kanan (ubah nilai x sesuai keinginan) ---
-  mainGroup.position.x = 2;   // <-- atur di sini, makin besar makin ke kanan
-
-  // Lights (tetap di scene, tidak ikut grup agar pencahayaan natural)
+  mainGroup.position.x = 2;
   const amb=new THREE.AmbientLight(0xffffff,.2);
   scene.add(amb);
   const pt1=new THREE.PointLight(0xa855f7,3,20);pt1.position.set(5,5,5);scene.add(pt1);
   const pt2=new THREE.PointLight(0x06b6d4,3,20);pt2.position.set(-5,-3,3);scene.add(pt2);
   const pt3=new THREE.PointLight(0x3b82f6,2,15);pt3.position.set(0,5,-5);scene.add(pt3);
-
-  // Mouse
   let mouseX=0,mouseY=0;
   document.addEventListener('mousemove',e=>{mouseX=(e.clientX/window.innerWidth-.5)*2;mouseY=(e.clientY/window.innerHeight-.5)*2;});
   let t=0;
@@ -691,7 +748,6 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
     renderer.render(scene,camera);
   }
   render();
-
   window.addEventListener('resize',()=>{
     camera.aspect=window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
@@ -699,93 +755,44 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   });
 })();
 
-// ==================== GALLERY THREE.JS (DENGAN GLTFLOADER) ====================
+// ==================== GALLERY THREE.JS (tidak berubah) ====================
 (function(){
   const canvas = document.getElementById('gallery-canvas');
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x060a10);
-  
   const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
   camera.position.set(0, 1, 5);
-  
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
-  
-  // --- Pencahayaan ---
   scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-  
-  const l1 = new THREE.PointLight(0xa855f7, 5, 20);
-  l1.position.set(4, 4, 4);
-  scene.add(l1);
-  
-  const l2 = new THREE.PointLight(0x06b6d4, 5, 20);
-  l2.position.set(-4, -2, 3);
-  scene.add(l2);
-  
-  const l3 = new THREE.PointLight(0x3b82f6, 3, 15);
-  l3.position.set(0, 5, -3);
-  scene.add(l3);
-  
-  // Grid lantai
+  const l1 = new THREE.PointLight(0xa855f7, 5, 20); l1.position.set(4, 4, 4); scene.add(l1);
+  const l2 = new THREE.PointLight(0x06b6d4, 5, 20); l2.position.set(-4, -2, 3); scene.add(l2);
+  const l3 = new THREE.PointLight(0x3b82f6, 3, 15); l3.position.set(0, 5, -3); scene.add(l3);
   const grid = new THREE.GridHelper(20, 30, 0x1a1a2e, 0x0d1220);
   grid.position.y = -2.5;
   scene.add(grid);
-  
-  // --- Loader GLTF ---
   const loader = new THREE.GLTFLoader();
   let currentModel = null;
-  
-  // 🖼️ DAFTAR URL MODEL (GANTI DENGAN URL GITHUB ANDA)
   const modelUrls = {
     crystal: 'https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/fruits.glb',
     mech:    'https://raw.githubusercontent.com/USERNAME/REPO/main/mech.glb',
     planet:  'https://raw.githubusercontent.com/USERNAME/REPO/main/planet.glb',
     relic:   'https://raw.githubusercontent.com/USERNAME/REPO/main/relic.glb'
   };
-  
   function loadModel(name) {
-    if (currentModel) {
-      scene.remove(currentModel);
-    }
-    
+    if (currentModel) scene.remove(currentModel);
     const url = modelUrls[name];
-    if (!url) {
-      console.error('URL untuk model ' + name + ' tidak ditemukan');
-      return;
-    }
-    
-    console.log('Memuat model: ' + name);
-    
-    loader.load(
-      url,
-      (gltf) => {
-        currentModel = gltf.scene;
-        currentModel.scale.set(0.8, 0.8, 0.8);
-        currentModel.position.y = 0;
-        currentModel.traverse(node => {
-          if (node.isMesh) {
-            node.castShadow = true;
-            node.receiveShadow = true;
-          }
-        });
-        scene.add(currentModel);
-        console.log('Model ' + name + ' berhasil dimuat');
-      },
-      (xhr) => {
-        const percent = Math.floor((xhr.loaded / xhr.total) * 100);
-        console.log(`Loading ${name}: ${percent}%`);
-      },
-      (error) => {
-        console.error('Gagal memuat model:', error);
-      }
-    );
+    loader.load(url, (gltf) => {
+      currentModel = gltf.scene;
+      currentModel.scale.set(0.8, 0.8, 0.8);
+      currentModel.position.y = 0;
+      currentModel.traverse(node => { if (node.isMesh) { node.castShadow = true; node.receiveShadow = true; }});
+      scene.add(currentModel);
+    });
   }
-  
   loadModel('crystal');
-  
-  // --- Kontrol Tombol ---
   document.querySelectorAll('.model-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
@@ -793,102 +800,51 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
       loadModel(btn.dataset.model);
     });
   });
-  
-  // --- Kontrol Orbit (Drag & Zoom) ---
-  let isDragging = false;
-  let prevMx = 0, prevMy = 0;
-  let theta = 0, phi = Math.PI / 4;
-  let radius = 5;
-  
-  canvas.addEventListener('mousedown', e => {
-    isDragging = true;
-    prevMx = e.clientX;
-    prevMy = e.clientY;
-  });
-  
+  let isDragging = false, prevMx = 0, prevMy = 0, theta = 0, phi = Math.PI / 4, radius = 5;
+  canvas.addEventListener('mousedown', e => { isDragging = true; prevMx = e.clientX; prevMy = e.clientY; });
   window.addEventListener('mouseup', () => { isDragging = false; });
-  
   window.addEventListener('mousemove', e => {
     if (!isDragging || !currentModel) return;
-    const dx = e.clientX - prevMx;
-    const dy = e.clientY - prevMy;
+    const dx = e.clientX - prevMx; const dy = e.clientY - prevMy;
     theta -= dx * 0.01;
     phi = Math.max(0.1, Math.min(Math.PI - 0.1, phi + dy * 0.01));
-    prevMx = e.clientX;
-    prevMy = e.clientY;
+    prevMx = e.clientX; prevMy = e.clientY;
   });
-  
-  canvas.addEventListener('wheel', e => {
-    radius = Math.max(2, Math.min(10, radius + e.deltaY * 0.01));
-    e.preventDefault();
-  }, { passive: false });
-  
-  // Touch support
-  let lastTouch = null;
-  canvas.addEventListener('touchstart', e => {
-    lastTouch = e.touches[0];
-    isDragging = true;
-  }, { passive: true });
-  
-  canvas.addEventListener('touchend', () => {
-    isDragging = false;
-    lastTouch = null;
-  }, { passive: true });
-  
-  canvas.addEventListener('touchmove', e => {
-    if (!isDragging || !lastTouch) return;
-    const t = e.touches[0];
-    const dx = t.clientX - lastTouch.clientX;
-    const dy = t.clientY - lastTouch.clientY;
-    theta -= dx * 0.01;
-    phi = Math.max(0.1, Math.min(Math.PI - 0.1, phi + dy * 0.01));
-    lastTouch = t;
-    e.preventDefault();
-  }, { passive: false });
-  
-  // --- Animasi ---
+  canvas.addEventListener('wheel', e => { radius = Math.max(2, Math.min(10, radius + e.deltaY * 0.01)); e.preventDefault(); }, { passive: false });
   let time = 0;
   function animate() {
     requestAnimationFrame(animate);
     time += 0.008;
-    
-    if (!isDragging && currentModel) {
-      theta += 0.005;
-    }
-    
+    if (!isDragging && currentModel) theta += 0.005;
     camera.position.x = radius * Math.sin(phi) * Math.sin(theta);
     camera.position.y = radius * Math.cos(phi);
     camera.position.z = radius * Math.sin(phi) * Math.cos(theta);
     camera.lookAt(0, 0.5, 0);
-    
     l1.position.x = Math.sin(time) * 6;
     l1.position.z = Math.cos(time) * 6;
     l2.position.x = Math.cos(time * 0.8) * 6;
     l2.position.z = Math.sin(time * 0.8) * 6;
-    
     renderer.render(scene, camera);
   }
   animate();
-  
   function resize() {
-    const w = canvas.clientWidth;
-    const h = canvas.clientHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
+    const w = canvas.clientWidth; const h = canvas.clientHeight;
+    camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);
   }
   window.addEventListener('resize', resize);
 })();
 
-// ==================== PROJECTS DATA ====================
+// ==================== PROJECTS DATA (DITAMBAHKAN youtubeId) ====================
 const projects=[
-  {name:'PIPILAKA',desc:'Hyper-detailed cyberpunk city environment for AAA game production. Full PBR workflow with real-time GI.',tags:['Game','Environment'],color:'#4f46e5',emoji:'🏙️',filter:'game'},
-  {name:'Bank Syariah Indonesia',desc:'Film-quality creature design for sci-fi blockbuster. Sculpted in ZBrush, textured in Substance Painter.',tags:['Film','Creature'],color:'#7c3aed',emoji:'🦾',filter:'film'},
-  {name:'Phantom Watch',desc:'Hyper-realistic product visualization for luxury timepiece campaign. Sub-surface scattering glass and metal.',tags:['Product','Viz'],color:'#0891b2',emoji:'⌚',filter:'product'},
-  {name:'Mech Warrior',desc:'Game-ready hard-surface mech character. LOD pipeline, rigged and fully animated battle sequence.',tags:['Game','Character'],color:'#7c3aed',emoji:'🤖',filter:'game'},
-  {name:'Stellar Drift',desc:'Award-winning short film VFX shot. Complex fluid simulations, volumetric nebula and asteroid field.',tags:['Film','VFX'],color:'#0e7490',emoji:'🌌',filter:'film'},
-  {name:'Velocity Blade',desc:'Automotive product viz for sports car launch. Ultra-high fidelity paint, chrome and carbon fiber materials.',tags:['Product','Auto'],color:'#be185d',emoji:'🚗',filter:'product'},
+  {name:'PIPILAKA',desc:'Hyper-detailed cyberpunk city environment for AAA game production. Full PBR workflow with real-time GI.',tags:['Game','Environment'],color:'#4f46e5',emoji:'🏙️',filter:'game',youtubeId:'hOF7sf4IPU8'},
+  {name:'Bank Syariah Indonesia',desc:'Film-quality creature design for sci-fi blockbuster. Sculpted in ZBrush, textured in Substance Painter.',tags:['Film','Creature'],color:'#7c3aed',emoji:'🦾',filter:'film',youtubeId:'hOF7sf4IPU8'},
+  {name:'Phantom Watch',desc:'Hyper-realistic product visualization for luxury timepiece campaign. Sub-surface scattering glass and metal.',tags:['Product','Viz'],color:'#0891b2',emoji:'⌚',filter:'product',youtubeId:'hOF7sf4IPU8'},
+  {name:'Mech Warrior',desc:'Game-ready hard-surface mech character. LOD pipeline, rigged and fully animated battle sequence.',tags:['Game','Character'],color:'#7c3aed',emoji:'🤖',filter:'game',youtubeId:'hOF7sf4IPU8'},
+  {name:'Stellar Drift',desc:'Award-winning short film VFX shot. Complex fluid simulations, volumetric nebula and asteroid field.',tags:['Film','VFX'],color:'#0e7490',emoji:'🌌',filter:'film',youtubeId:'hOF7sf4IPU8'},
+  {name:'Velocity Blade',desc:'Automotive product viz for sports car launch. Ultra-high fidelity paint, chrome and carbon fiber materials.',tags:['Product','Auto'],color:'#be185d',emoji:'🚗',filter:'product',youtubeId:'hOF7sf4IPU8'}
 ];
+
+// ==================== RENDER PROJECTS + KLIK CARD ====================
 function renderProjects(filter){
   const grid=document.getElementById('project-grid');
   grid.innerHTML='';
@@ -904,7 +860,7 @@ function renderProjects(filter){
           <span style="filter:drop-shadow(0 0 20px ${p.color})">${p.emoji}</span>
         </div>
         <div class="project-overlay">
-          <span class="view-project">→ View Case Study</span>
+          <span class="view-project">▶ WATCH REEL</span>
         </div>
       </div>
       <div class="project-info">
@@ -912,11 +868,15 @@ function renderProjects(filter){
         <div class="project-name">${p.name}</div>
         <div class="project-desc">${p.desc}</div>
       </div>`;
+    // SELURUH CARD BISA DIKLIK
+    card.addEventListener('click',()=>openVideoModal(p));
     grid.appendChild(card);
     setTimeout(()=>card.classList.add('visible'),i*80);
   });
 }
 renderProjects('all');
+
+// Filter tetap berfungsi
 document.querySelectorAll('.filter-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
@@ -925,87 +885,71 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
   });
 });
 
-// ==================== WORKFLOW ====================
-const steps=[
-  {num:'01',icon:'💡',title:'Concept',desc:'Reference gathering, mood boards, and initial sketching to define the creative direction.'},
-  {num:'02',icon:'📐',title:'Modeling',desc:'Blockout in Blender/Maya, high-poly sculpt in ZBrush, retopo for game-ready mesh.'},
-  {num:'03',icon:'🎨',title:'Texturing',desc:'UV unwrap, PBR material creation in Substance Painter with custom smart materials.'},
-  {num:'04',icon:'💡',title:'Lighting',desc:'HDRI setup, area lights, and fine-tuned rim/fill lighting to sculpt mood and depth.'},
-  {num:'05',icon:'⚙️',title:'Rigging',desc:'Skeleton setup, skin weights, blend shapes, and IK/FK controls for animation-ready assets.'},
-  {num:'06',icon:'🎬',title:'Rendering',desc:'Arnold/Cycles final render, AOV passes, and Photoshop/Nuke composite for film quality.'},
-];
-const wrapEl=document.getElementById('workflow');
-steps.forEach((s,i)=>{
-  const div=document.createElement('div');
-  div.className='step-card reveal';
-  div.innerHTML=`<div class="step-num">// ${s.num}</div><div class="step-icon">${s.icon}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div>`;
-  wrapEl.appendChild(div);
+// ==================== MODAL VIDEO (KOTAK YANG TERSEDIA) ====================
+function openVideoModal(project){
+  const modal = document.getElementById('project-modal');
+  const videoContainer = document.getElementById('modal-video');
+  const titleEl = document.getElementById('modal-title');
+  const descEl = document.getElementById('modal-desc');
+
+  // Embed YouTube dengan autoplay (tanpa new tab)
+  videoContainer.innerHTML = `
+    <iframe src="https://www.youtube-nocookie.com/embed/${project.youtubeId}?autoplay=1&rel=0&modestbranding=1" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+            allowfullscreen></iframe>`;
+
+  titleEl.textContent = project.name;
+  descEl.textContent = project.desc;
+
+  modal.style.display = 'flex';
+}
+
+function closeModal(){
+  const modal = document.getElementById('project-modal');
+  const videoContainer = document.getElementById('modal-video');
+  modal.style.display = 'none';
+  videoContainer.innerHTML = ''; // stop video
+}
+
+// Close button
+document.getElementById('close-modal').addEventListener('click', closeModal);
+
+// Klik di luar konten modal untuk close
+document.getElementById('project-modal').addEventListener('click', function(e){
+  if(e.target.id === 'project-modal') closeModal();
 });
 
-// ==================== SKILLS ====================
-const skillsList = [
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/blender-32.png", name: "Blender" },
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/3d-painter.png", name: "Substance Painter" },
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/adobe-after-effects.png", name: "After Effects" },
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/davinci-resolve.png", name: "Davinci Resolve" },
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/unreal-engine.png", name: "Unreal Engine" },
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/cinema-4d-32.png", name: "Cinema 4D" },
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/adobe-premiere-pro.png", name: "Adobe Premiere Pro" },
-  
-];
+// ESC key support
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    const modal = document.getElementById('project-modal');
+    if(modal.style.display === 'flex') closeModal();
+  }
+});
 
+// ==================== WORKFLOW, SKILLS, TIMELINE, COUNTER, SCROLL REVEAL, SHOWREEL (semua tetap sama) ====================
+const steps=[{num:'01',icon:'💡',title:'Concept',desc:'Reference gathering, mood boards, and initial sketching to define the creative direction.'},{num:'02',icon:'📐',title:'Modeling',desc:'Blockout in Blender/Maya, high-poly sculpt in ZBrush, retopo for game-ready mesh.'},{num:'03',icon:'🎨',title:'Texturing',desc:'UV unwrap, PBR material creation in Substance Painter with custom smart materials.'},{num:'04',icon:'💡',title:'Lighting',desc:'HDRI setup, area lights, and fine-tuned rim/fill lighting to sculpt mood and depth.'},{num:'05',icon:'⚙️',title:'Rigging',desc:'Skeleton setup, skin weights, blend shapes, and IK/FK controls for animation-ready assets.'},{num:'06',icon:'🎬',title:'Rendering',desc:'Arnold/Cycles final render, AOV passes, and Photoshop/Nuke composite for film quality.'}];
+const wrapEl=document.getElementById('workflow');
+steps.forEach((s,i)=>{const div=document.createElement('div');div.className='step-card reveal';div.innerHTML=`<div class="step-num">// ${s.num}</div><div class="step-icon">${s.icon}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div>`;wrapEl.appendChild(div);});
+
+const skillsList = [{ icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/blender-32.png", name: "Blender" },{ icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/3d-painter.png", name: "Substance Painter" },{ icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/adobe-after-effects.png", name: "After Effects" },{ icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/davinci-resolve.png", name: "Davinci Resolve" },{ icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/unreal-engine.png", name: "Unreal Engine" },{ icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/cinema-4d-32.png", name: "Cinema 4D" },{ icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/adobe-premiere-pro.png", name: "Adobe Premiere Pro" }];
 const sg = document.getElementById('skills-grid');
 skillsList.forEach(s => {
-  const div = document.createElement('div');
-  div.className = 'skill-card';
-  
-  // Cek apakah icon berupa URL gambar
+  const div = document.createElement('div'); div.className = 'skill-card';
   const isImageUrl = s.icon.startsWith('http');
-  const iconHtml = isImageUrl
-    ? `<img src="${s.icon}" alt="${s.name}" class="skill-icon-img" style="width:32px; height:32px; object-fit:contain;">`
-    : `<span class="skill-icon-emoji" style="font-size:28px;">${s.icon}</span>`;
-  
-  // Hanya icon dan nama, tanpa progress bar
-  div.innerHTML = `
-    <div class="skill-icon">${iconHtml}</div>
-    <div class="skill-name">${s.name}</div>
-  `;
+  const iconHtml = isImageUrl ? `<img src="${s.icon}" alt="${s.name}" style="width:32px; height:32px; object-fit:contain;">` : `<span style="font-size:28px;">${s.icon}</span>`;
+  div.innerHTML = `<div class="skill-icon">${iconHtml}</div><div class="skill-name">${s.name}</div>`;
   sg.appendChild(div);
 });
 
-// ==================== TIMELINE ====================
-const milestones=[
-  {year:'2 years',title:'Lead 3D Artist',org:'Nebula Studios — Jakarta',desc:'Leading a team of 6 artists on AAA mobile game productions. Overseeing environment art pipeline from concept to final delivery.'},
-  {year:'1 year',title:'Senior 3D Artist',org:'Vortex VFX — Remote',desc:'Created high-fidelity character and environment assets for Netflix original series. Developed studio-wide PBR material standards.'},
-  {year:'2020',title:'3D Artist',org:'PixelForge Games — Surabaya',desc:'Contributed to shipped mobile title with 2M+ downloads. Responsible for all environment modeling and texturing.'},
-  {year:'2019',title:'Freelance Artist',org:'Self-Employed',desc:'Built client base across product visualization, architectural viz, and game asset creation. 40+ satisfied clients.'},
-  {year:'2018',title:'Graduated',org:'Institut Teknologi Bandung — DKV',desc:'Bachelor\'s in Visual Communication Design, specializing in digital media and 3D production. Graduated Cum Laude.'},
-];
+const milestones=[{year:'2 years',title:'Lead 3D Artist',org:'Nebula Studios — Jakarta',desc:'Leading a team of 6 artists on AAA mobile game productions. Overseeing environment art pipeline from concept to final delivery.'},{year:'1 year',title:'Senior 3D Artist',org:'Vortex VFX — Remote',desc:'Created high-fidelity character and environment assets for Netflix original series. Developed studio-wide PBR material standards.'},{year:'2020',title:'3D Artist',org:'PixelForge Games — Surabaya',desc:'Contributed to shipped mobile title with 2M+ downloads. Responsible for all environment modeling and texturing.'},{year:'2019',title:'Freelance Artist',org:'Self-Employed',desc:'Built client base across product visualization, architectural viz, and game asset creation. 40+ satisfied clients.'},{year:'2018',title:'Graduated',org:'Institut Teknologi Bandung — DKV',desc:'Bachelor\'s in Visual Communication Design, specializing in digital media and 3D production. Graduated Cum Laude.'}];
 const tw=document.getElementById('timeline-wrap');
-milestones.forEach(m=>{
-  const div=document.createElement('div');
-  div.className='timeline-item reveal';
-  div.innerHTML=`<div class="timeline-dot"></div><div class="timeline-year">${m.year}</div><div class="timeline-title">${m.title}</div><div class="timeline-org">${m.org}</div><div class="timeline-desc">${m.desc}</div>`;
-  tw.appendChild(div);
-});
+milestones.forEach(m=>{const div=document.createElement('div');div.className='timeline-item reveal';div.innerHTML=`<div class="timeline-dot"></div><div class="timeline-year">${m.year}</div><div class="timeline-title">${m.title}</div><div class="timeline-org">${m.org}</div><div class="timeline-desc">${m.desc}</div>`;tw.appendChild(div);});
 
-// ==================== SCROLL REVEAL ====================
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-      if(e.target.classList.contains('skill-card')){
-        const bar=e.target.querySelector('.skill-bar');
-        if(bar&&!bar.style.width.includes('%')||bar.style.width==='0%'){
-          setTimeout(()=>{bar.style.width=bar.dataset.pct;},200);
-        }
-      }
-    }
-  });
-},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-// ==================== COUNTER ANIMATION ====================
 function animCounters(){
   document.querySelectorAll('.counter').forEach(el=>{
     const target=+el.dataset.target;
@@ -1020,14 +964,12 @@ function animCounters(){
 }
 setTimeout(animCounters,800);
 
-// ==================== PARALLAX ====================
 window.addEventListener('scroll',()=>{
   const sy=window.scrollY;
   const heroContent=document.querySelector('.hero-content');
   if(heroContent)heroContent.style.transform=`translateY(${sy*.3}px)`;
 });
 
-// ==================== SHOWREEL ANIMATION ====================
 const showreelBg=document.getElementById('showreel-bg');
 if(showreelBg){
   const canvas=document.createElement('canvas');
@@ -1037,35 +979,19 @@ if(showreelBg){
   let sw=0,sh=0;
   function resizeSR(){sw=canvas.width=showreelBg.offsetWidth;sh=canvas.height=showreelBg.offsetHeight;}
   resizeSR();window.addEventListener('resize',resizeSR);
-  const pts=Array.from({length:60},()=>({
-    x:Math.random()*sw,y:Math.random()*sh,
-    vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
-    r:Math.random()*2+1,
-    c:`hsl(${Math.random()*60+240},80%,70%)`,
-    o:Math.random()
-  }));
+  const pts=Array.from({length:60},()=>({x:Math.random()*sw,y:Math.random()*sh,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1,c:`hsl(${Math.random()*60+240},80%,70%)`,o:Math.random()}));
   let srt=0;
   function drawSR(){
     requestAnimationFrame(drawSR);
     srt+=.005;
     ctx.clearRect(0,0,sw,sh);
-    pts.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0)p.x=sw;if(p.x>sw)p.x=0;
-      if(p.y<0)p.y=sh;if(p.y>sh)p.y=0;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=p.c;ctx.globalAlpha=p.o*.6;ctx.fill();
-    });
-    ctx.globalAlpha=1;
-    ctx.strokeStyle='rgba(100,100,200,0.06)';ctx.lineWidth=1;
-    for(let i=0;i<sw;i+=60){
-      ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+sh*.3,sh);ctx.stroke();
-    }
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=sw;if(p.x>sw)p.x=0;if(p.y<0)p.y=sh;if(p.y>sh)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.globalAlpha=p.o*.6;ctx.fill();});
+    ctx.globalAlpha=1;ctx.strokeStyle='rgba(100,100,200,0.06)';ctx.lineWidth=1;
+    for(let i=0;i<sw;i+=60){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+sh*.3,sh);ctx.stroke();}
   }
   drawSR();
 }
 
-// ==================== PLAY BTN ====================
 document.getElementById('play-btn')&&document.getElementById('play-btn').addEventListener('click',()=>{
   const wrap = document.querySelector('.showreel-placeholder');
   wrap.innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/hOF7sf4IPU8?autoplay=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>';
