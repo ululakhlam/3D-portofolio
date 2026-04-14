@@ -467,10 +467,7 @@ body::before{
         <div class="hero-stat-num"><span class="counter" data-target="120">0</span>+</div>
         <div class="hero-stat-label">Projects Completed</div>
       </div>
-      <div>
-        <div class="hero-stat-num"><span class="counter" data-target="40">0</span>+</div>
-        <div class="hero-stat-label">Happy Clients</div>
-      </div>
+      
     </div>
   </div>
   <div class="hero-scroll">
@@ -649,12 +646,15 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   mainGroup.add(stars);
 
   // Central shape
-  const torusGeo=new THREE.TorusKnotGeometry(1.2,.35,200,32,2,3);
+ 
+  const torusGeo=new THREE.BoxGeometry(2,2,2);
   const torusMat=new THREE.MeshStandardMaterial({
     color:0x1a1a2e,metalness:.9,roughness:.1,
     emissive:0x4400aa,emissiveIntensity:.3,
-    wireframe:false
+    wireframe:true
   });
+  
+  
   const torus=new THREE.Mesh(torusGeo,torusMat);
   mainGroup.add(torus);
 
@@ -664,7 +664,7 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   mainGroup.add(wire);
 
   // --- Geser grup ke kanan (ubah nilai x sesuai keinginan) ---
-  mainGroup.position.x = 5;   // <-- atur di sini, makin besar makin ke kanan
+  mainGroup.position.x = 2;   // <-- atur di sini, makin besar makin ke kanan
 
   // Lights (tetap di scene, tidak ikut grup agar pencahayaan natural)
   const amb=new THREE.AmbientLight(0xffffff,.2);
