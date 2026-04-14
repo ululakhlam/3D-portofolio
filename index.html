@@ -931,18 +931,14 @@ steps.forEach((s,i)=>{
 
 // ==================== SKILLS ====================
 const skillsList = [
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/blender-32.png", name: "Blender"},
-  { icon: "🟡", name: "Maya"},
-  { icon: "🟠", name: "ZBrush", pct: 92, bar: "skill-bar-cyan" },
-  { icon: "🟤", name: "Substance Painter", pct: 88, bar: "skill-bar-purple" },
-  { icon: "🟢", name: "Unreal Engine", pct: 82, bar: "skill-bar-cyan" },
-  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/cinema-4d-32.png", name: "Cinema 4D", pct: 78, bar: "skill-bar-purple" },
-  { icon: "🔴", name: "Arnold", pct: 86, bar: "skill-bar-cyan" },
-  { icon: "🟣", name: "Houdini", pct: 72, bar: "skill-bar-purple" },
-  { icon: "🔷", name: "After Effects", pct: 80, bar: "skill-bar-cyan" },
-  { icon: "🟥", name: "Nuke", pct: 70, bar: "skill-bar-purple" },
-  { icon: "⬛", name: "Marvelous Designer", pct: 75, bar: "skill-bar-cyan" },
-  { icon: "🔶", name: "Photoshop", pct: 88, bar: "skill-bar-purple" }
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/blender-32.png", name: "Blender" },
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/3d-painter.png", name: "Substance Painter" },
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/adobe-after-effects.png", name: "After Effects" },
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/davinci-resolve.png", name: "Davinci Resolve" },
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/unreal-engine.png", name: "Unreal Engine" },
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/cinema-4d-32.png", name: "Cinema 4D" },
+  { icon: "https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/adobe-premiere-pro.png", name: "Adobe Premiere Pro" },
+  
 ];
 
 const sg = document.getElementById('skills-grid');
@@ -956,13 +952,10 @@ skillsList.forEach(s => {
     ? `<img src="${s.icon}" alt="${s.name}" class="skill-icon-img" style="width:32px; height:32px; object-fit:contain;">`
     : `<span class="skill-icon-emoji" style="font-size:28px;">${s.icon}</span>`;
   
+  // Hanya icon dan nama, tanpa progress bar
   div.innerHTML = `
     <div class="skill-icon">${iconHtml}</div>
     <div class="skill-name">${s.name}</div>
-    <div class="skill-level">
-      <div class="skill-bar ${s.bar}" style="width:0%" data-pct="${s.pct}%"></div>
-    </div>
-    <div class="skill-pct">${s.pct}%</div>
   `;
   sg.appendChild(div);
 });
