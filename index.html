@@ -1,4 +1,4 @@
-Put your HTML text here<!DOCTYPE html>
+Put your HTML text herePut your HTML text here<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -483,6 +483,18 @@ body::before{
   color:var(--purple);
   transform:rotate(90deg);
 }
+====== FEATURED PROJECT (ANIMASI PAS CURSOR LEWAT) ======
+.project-thumb-inner {
+  background: linear-gradient(135deg, rgba(10,15,24,.6), rgba(10,15,24,.9)); /* background gelap agar gambar lebih pop */
+  overflow: hidden;
+}
+.project-thumb-inner img {
+  transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+}
+.project-card:hover .project-thumb-inner img {
+  transform: scale(1.1);
+}
+
 </style>
 </head>
 <body>
@@ -760,8 +772,8 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   const canvas = document.getElementById('gallery-canvas');
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x060a10);
-  const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-  camera.position.set(0, 1, 5);
+  const camera = new THREE.PerspectiveCamera(65, canvas.clientWidth / canvas.clientHeight, .1, 100);
+  camera.position.set(1000, 1000, 10000);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -771,7 +783,7 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   const l2 = new THREE.PointLight(0x06b6d4, 5, 20); l2.position.set(-4, -2, 3); scene.add(l2);
   const l3 = new THREE.PointLight(0x3b82f6, 3, 15); l3.position.set(0, 5, -3); scene.add(l3);
   const grid = new THREE.GridHelper(20, 30, 0x1a1a2e, 0x0d1220);
-  grid.position.y = -2.5;
+  grid.position.y = -1;
   scene.add(grid);
   const loader = new THREE.GLTFLoader();
   let currentModel = null;
@@ -834,30 +846,87 @@ document.querySelectorAll('a,button,.project-card,.skill-card,.step-card,.play-b
   window.addEventListener('resize', resize);
 })();
 
-// ==================== PROJECTS DATA (DITAMBAHKAN youtubeId) ====================
-const projects=[
-  {name:'PIPILAKA',desc:'Hyper-detailed cyberpunk city environment for AAA game production. Full PBR workflow with real-time GI.',tags:['Game','Environment'],color:'#4f46e5',emoji:'🏙️',filter:'game',youtubeId:'hOF7sf4IPU8'},
-  {name:'Bank Syariah Indonesia',desc:'Film-quality creature design for sci-fi blockbuster. Sculpted in ZBrush, textured in Substance Painter.',tags:['Film','Creature'],color:'#7c3aed',emoji:'🦾',filter:'film',youtubeId:'hOF7sf4IPU8'},
-  {name:'Phantom Watch',desc:'Hyper-realistic product visualization for luxury timepiece campaign. Sub-surface scattering glass and metal.',tags:['Product','Viz'],color:'#0891b2',emoji:'⌚',filter:'product',youtubeId:'hOF7sf4IPU8'},
-  {name:'Mech Warrior',desc:'Game-ready hard-surface mech character. LOD pipeline, rigged and fully animated battle sequence.',tags:['Game','Character'],color:'#7c3aed',emoji:'🤖',filter:'game',youtubeId:'hOF7sf4IPU8'},
-  {name:'Stellar Drift',desc:'Award-winning short film VFX shot. Complex fluid simulations, volumetric nebula and asteroid field.',tags:['Film','VFX'],color:'#0e7490',emoji:'🌌',filter:'film',youtubeId:'hOF7sf4IPU8'},
-  {name:'Velocity Blade',desc:'Automotive product viz for sports car launch. Ultra-high fidelity paint, chrome and carbon fiber materials.',tags:['Product','Auto'],color:'#be185d',emoji:'🚗',filter:'product',youtubeId:'hOF7sf4IPU8'}
+// ==================== PROJECTS DATA (THUMBNAIL DARI GITHUB) ====================
+const projects = [
+  {
+    name: 'PIPILAKA',
+    desc: 'Hyper-detailed cyberpunk city environment for AAA game production. Full PBR workflow with real-time GI.',
+    tags: ['Game', 'Environment'],
+    color: '#4f46e5',
+    filter: 'game',
+    youtubeId: 'hOF7sf4IPU8',
+    thumbnail: 'https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/pipilaka.jpg'
+  },
+  {
+    name: 'Bank Syariah Indonesia',
+    desc: 'Film-quality creature design for sci-fi blockbuster. Sculpted in ZBrush, textured in Substance Painter.',
+    tags: ['Film', 'Creature'],
+    color: '#7c3aed',
+    filter: 'film',
+    youtubeId: 'hOF7sf4IPU8',
+    thumbnail: 'https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/pipilaka.jpg'
+  },
+  {
+    name: 'Phantom Watch',
+    desc: 'Hyper-realistic product visualization for luxury timepiece campaign. Sub-surface scattering glass and metal.',
+    tags: ['Product', 'Viz'],
+    color: '#0891b2',
+    filter: 'product',
+    youtubeId: 'hOF7sf4IPU8',
+    thumbnail: 'https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/pipilaka.jpg'
+  },
+  {
+    name: 'Mech Warrior',
+    desc: 'Game-ready hard-surface mech character. LOD pipeline, rigged and fully animated battle sequence.',
+    tags: ['Game', 'Character'],
+    color: '#7c3aed',
+    filter: 'game',
+    youtubeId: 'hOF7sf4IPU8',
+    thumbnail: 'https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/pipilaka.jpg'
+  },
+  {
+    name: 'Stellar Drift',
+    desc: 'Award-winning short film VFX shot. Complex fluid simulations, volumetric nebula and asteroid field.',
+    tags: ['Film', 'VFX'],
+    color: '#0e7490',
+    filter: 'film',
+    youtubeId: 'hOF7sf4IPU8',
+    thumbnail: 'https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/pipilaka.jpg'
+  },
+  {
+    name: 'Velocity Blade',
+    desc: 'Automotive product viz for sports car launch. Ultra-high fidelity paint, chrome and carbon fiber materials.',
+    tags: ['Product', 'Auto'],
+    color: '#be185d',
+    filter: 'product',
+    youtubeId: 'hOF7sf4IPU8',
+    thumbnail: 'https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/pipilaka.jpg'
+  }
 ];
 
 // ==================== RENDER PROJECTS + KLIK CARD ====================
-function renderProjects(filter){
-  const grid=document.getElementById('project-grid');
-  grid.innerHTML='';
-  const filtered=filter==='all'?projects:projects.filter(p=>p.filter===filter);
-  filtered.forEach((p,i)=>{
-    const tagColors=['tag-purple','tag-blue','tag-cyan'];
-    const tagsHTML=p.tags.map((t,j)=>`<span class="tag ${tagColors[j%3]}">${t}</span>`).join('');
-    const card=document.createElement('div');
-    card.className='project-card reveal';
-    card.innerHTML=`
+function renderProjects(filter) {
+  const grid = document.getElementById('project-grid');
+  grid.innerHTML = '';
+  
+  const filtered = filter === 'all' 
+    ? projects 
+    : projects.filter(p => p.filter === filter);
+
+  filtered.forEach((p, i) => {
+    const tagColors = ['tag-purple', 'tag-blue', 'tag-cyan'];
+    const tagsHTML = p.tags.map((t, j) => 
+      `<span class="tag ${tagColors[j % 3]}">${t}</span>`
+    ).join('');
+
+    const card = document.createElement('div');
+    card.className = 'project-card reveal';
+    card.innerHTML = `
       <div class="project-thumb">
-        <div class="project-thumb-inner" style="background:linear-gradient(135deg,${p.color}22,${p.color}44,#0a0f18);">
-          <span style="filter:drop-shadow(0 0 20px ${p.color})">${p.emoji}</span>
+        <div class="project-thumb-inner">
+          <img src="${p.thumbnail}" 
+               alt="${p.name}" 
+               style="width:100%; height:100%; object-fit:cover; filter:drop-shadow(0 0 25px ${p.color});">
         </div>
         <div class="project-overlay">
           <span class="view-project">▶ WATCH REEL</span>
@@ -868,10 +937,11 @@ function renderProjects(filter){
         <div class="project-name">${p.name}</div>
         <div class="project-desc">${p.desc}</div>
       </div>`;
-    // SELURUH CARD BISA DIKLIK
-    card.addEventListener('click',()=>openVideoModal(p));
+
+    // SELURUH CARD BISA DIKLIK → buka modal video
+    card.addEventListener('click', () => openVideoModal(p));
     grid.appendChild(card);
-    setTimeout(()=>card.classList.add('visible'),i*80);
+    setTimeout(() => card.classList.add('visible'), i * 80);
   });
 }
 renderProjects('all');
