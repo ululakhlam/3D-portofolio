@@ -1,4 +1,4 @@
-Put your HTML text herePut your HTML text here<!DOCTYPE html>
+Put your HTML text herePut your HTML text herePut your HTML text here<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -605,7 +605,7 @@ body::before{
   </div>
   <canvas id="gallery-canvas" class="reveal"></canvas>
   <div class="gallery-controls reveal">
-    <button class="model-btn active" data-model="crystal">Crystal Shard</button>
+    <button class="model-btn active" data-model="crystal">Fruits</button>
     <button class="model-btn" data-model="mech">Mech Core</button>
     <button class="model-btn" data-model="planet">Planet</button>
     <button class="model-btn" data-model="relic">Ancient Relic</button>
@@ -894,9 +894,9 @@ const projects = [
     thumbnail: 'https://raw.githubusercontent.com/ululakhlam/3D-portofolio/main/pipilaka.jpg'
   },
   {
-    name: 'Velocity Blade',
+    name: '0',
     desc: 'Automotive product viz for sports car launch. Ultra-high fidelity paint, chrome and carbon fiber materials.',
-    tags: ['Product', 'Auto'],
+    tags: ['Product', 'Auto', 'film'],
     color: '#be185d',
     filter: 'product',
     youtubeId: 'hOF7sf4IPU8',
@@ -999,7 +999,7 @@ document.addEventListener('keydown', function(e){
 });
 
 // ==================== WORKFLOW, SKILLS, TIMELINE, COUNTER, SCROLL REVEAL, SHOWREEL (semua tetap sama) ====================
-const steps=[{num:'01',icon:'💡',title:'Concept',desc:'Reference gathering, mood boards, and initial sketching to define the creative direction.'},{num:'02',icon:'📐',title:'Modeling',desc:'Blockout in Blender/Maya, high-poly sculpt in ZBrush, retopo for game-ready mesh.'},{num:'03',icon:'🎨',title:'Texturing',desc:'UV unwrap, PBR material creation in Substance Painter with custom smart materials.'},{num:'04',icon:'💡',title:'Lighting',desc:'HDRI setup, area lights, and fine-tuned rim/fill lighting to sculpt mood and depth.'},{num:'05',icon:'⚙️',title:'Rigging',desc:'Skeleton setup, skin weights, blend shapes, and IK/FK controls for animation-ready assets.'},{num:'06',icon:'🎬',title:'Rendering',desc:'Arnold/Cycles final render, AOV passes, and Photoshop/Nuke composite for film quality.'}];
+const steps=[{num:'01',icon:'💡',title:'Concept',desc:'Reference gathering, mood boards, and initial sketching to define the creative direction.'},{num:'02',icon:'📐',title:'Modeling',desc:'Blockout in Blender/Maya, high-poly sculpt in ZBrush, retopo for game-ready mesh.'},{num:'03',icon:'🎨',title:'Texturing',desc:'UV unwrap, PBR material creation in Substance Painter with custom smart materials.'},{num:'04',icon:'⚙️',title:'Rigging',desc:'HDRI setup, area lights, and fine-tuned rim/fill lighting to sculpt mood and depth.'},{num:'05',icon:'💡',title:'Lighting',desc:'Skeleton setup, skin weights, blend shapes, and IK/FK controls for animation-ready assets.'},{num:'06',icon:'🎬',title:'Rendering',desc:'Arnold/Cycles final render, AOV passes, and Photoshop/Nuke composite for film quality.'}];
 const wrapEl=document.getElementById('workflow');
 steps.forEach((s,i)=>{const div=document.createElement('div');div.className='step-card reveal';div.innerHTML=`<div class="step-num">// ${s.num}</div><div class="step-icon">${s.icon}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div>`;wrapEl.appendChild(div);});
 
@@ -1013,7 +1013,7 @@ skillsList.forEach(s => {
   sg.appendChild(div);
 });
 
-const milestones=[{year:'2 years',title:'Lead 3D Artist',org:'Nebula Studios — Jakarta',desc:'Leading a team of 6 artists on AAA mobile game productions. Overseeing environment art pipeline from concept to final delivery.'},{year:'1 year',title:'Senior 3D Artist',org:'Vortex VFX — Remote',desc:'Created high-fidelity character and environment assets for Netflix original series. Developed studio-wide PBR material standards.'},{year:'2020',title:'3D Artist',org:'PixelForge Games — Surabaya',desc:'Contributed to shipped mobile title with 2M+ downloads. Responsible for all environment modeling and texturing.'},{year:'2019',title:'Freelance Artist',org:'Self-Employed',desc:'Built client base across product visualization, architectural viz, and game asset creation. 40+ satisfied clients.'},{year:'2018',title:'Graduated',org:'Institut Teknologi Bandung — DKV',desc:'Bachelor\'s in Visual Communication Design, specializing in digital media and 3D production. Graduated Cum Laude.'}];
+const milestones=[{year:'2026, Jakarta',title:'3D Motion Artist (freelance)',org:'World Bank Group',desc:'Creating a 3D animated video of a map of Indonesia with pins in various cities.'},{year:'2024, Yogyakarta',title:'3D Modeler and VFX Artist (freelance)',org:'PIPILAKA FOUNDATION',desc:'As a 3D modeler, I create assets for immersive hologram exhibitions at Jogja National Museum, and as a VFX artist, i produce a promotional video with visual effect.'},{year:'2023, Yogyakarta',title:'3D Motion Artist (freelance)',org:'Bank Syariah Indonesia',desc:'Creating a 3D animated video for the opening of an internal event featuring subsidiaries of Bank Syariah Indonesia across various cities in Indonesia.'},{year:'2023-2024, Yogyakarta',title:'Graduated',org:'DOES University',desc:'3D Modeling and Animation'}];
 const tw=document.getElementById('timeline-wrap');
 milestones.forEach(m=>{const div=document.createElement('div');div.className='timeline-item reveal';div.innerHTML=`<div class="timeline-dot"></div><div class="timeline-year">${m.year}</div><div class="timeline-title">${m.title}</div><div class="timeline-org">${m.org}</div><div class="timeline-desc">${m.desc}</div>`;tw.appendChild(div);});
 
